@@ -19,9 +19,8 @@ jobs:
         sudo apt-get install -y android-sdk-build-tools
         sudo apt-get install -y android-sdk-cmdline-tools
         pip install cython
-        run: |
-          yes | sdkmanager "build-tools;34.0.0"  # Replace with your version
-          echo "$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
+        yes | sdkmanager "build-tools;34.0.0" "platform-tools" "platforms;android-34" "extras;android;m2repository"  # Replace with your version
+        echo "$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
 
     - name: Install Buildozer
       run: pip install buildozer
