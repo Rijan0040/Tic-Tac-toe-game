@@ -1,20 +1,19 @@
 name: Build APK
-on: [push]
+
+on: [push, pull_request]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libtinfo5
-      - name: Install Buildozer
-        run: pip install buildozer
-      - name: Build APK
-        run: buildozer -v android debug
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: tictactoe.apk
-          path: bin/*.apk
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Add other steps here as needed
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifact
+        path: ./path/to/artifact
