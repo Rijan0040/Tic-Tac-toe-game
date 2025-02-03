@@ -10,10 +10,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    # Add other steps here as needed
+    - name: Setup dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libtinfo5
+
+    - name: Install Buildozer
+      run: pip install buildozer
+
+    - name: Build APK
+      run: buildozer -v android debug
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: build-artifact
         path: ./path/to/artifact
