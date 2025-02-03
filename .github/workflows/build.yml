@@ -14,8 +14,10 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y python3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libtinfo6
-        pip install cython
         sudo apt-get install -y android-sdk
+        sudo apt-get install -y android-sdk-platform-tools
+        sudo apt-get install -y android-sdk-build-tools
+        pip install cython
 
     - name: Install Buildozer
       run: pip install buildozer
