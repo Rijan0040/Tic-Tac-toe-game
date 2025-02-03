@@ -9,7 +9,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
     - name: Setup dependencies
       run: |
         sudo apt-get update
@@ -30,8 +29,6 @@ jobs:
           # Set environment variables
           echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
           echo "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
-
-      - name: Install Build-Tools and SDK
         run: |
           # Install build-tools (replace 34.0.0 with your version)
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
