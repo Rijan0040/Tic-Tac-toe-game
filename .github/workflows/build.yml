@@ -31,6 +31,8 @@ jobs:
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-34"
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;android;m2repository"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk-bundle"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;google;aidl"
         echo "$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
 
     - name: Install Buildozer
