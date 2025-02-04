@@ -27,9 +27,11 @@ jobs:
         unzip commandlinetools-linux-10406996_latest.zip -d latest
         echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
         echo "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0""platforms;android-34" "extras;android;m2repository" "aidl"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-34"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;android;m2repository"
         echo "$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
-          
 
     - name: Install Buildozer
       run: pip install buildozer
