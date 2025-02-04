@@ -1,4 +1,24 @@
-name: Build APK
+The logs indicate errors during XML parsing while fetching the remote repository, which may be causing the failure in the job related to `aidl`.
+
+To address this issue, ensurename: Build APK
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@ that your XML configuration files are correctly formatted. Additionally, include the installation of `aidl` in the Android SDK setup. Update your `.github/workflows/build.yml` file as follows:
+
+```yaml
+namev2
+
+    - name: Setup dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libtinfo6: Build APK
 
 on: [push, pull_request]
 
@@ -13,7 +33,15 @@ jobs:
     - name: Setup dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libtinfo6
+        sudo apt-get install -y python
+        sudo apt-get install -y android-sdk
+        sudo apt-get install -y android-sdk-platform-tools
+        sudo apt-get install -y android-sdk-build-tools
+        pip install cython
+
+    - name: Setup Android SDK
+      run: |
+        mkdir -p $HOME/Android/S3-pip git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libtinfo6
         sudo apt-get install -y android-sdk
         sudo apt-get install -y android-sdk-platform-tools
         sudo apt-get install -y android-sdk-build-tools
@@ -23,11 +51,20 @@ jobs:
       run: |
         mkdir -p $HOME/Android/Sdk/cmdline-tools
         cd $HOME/Android/Sdk/cmdline-tools
+        wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zipdk/cmdline-tools
+        cd $HOME/Android/Sdk/cmdline-tools
         wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
+        unzip commandlinetools-linux-10406996
         unzip commandlinetools-linux-10406996_latest.zip -d latest
         echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
         echo "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install_latest.zip -d latest
+        echo "ANDROID_HOME=$HOME/Android/Sdk" >> $GITHUB_ENV
+        echo "$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "build-tools;34.0.0"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-34"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;android;m2 "build-tools;34.0.0"
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platform-tools"
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "platforms;android-34"
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;android;m2repository"
@@ -38,7 +75,22 @@ jobs:
     - name: Install Buildozer
       run: pip install buildozer
 
+   repository"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk-bundle"
+        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "extras;google;aidl"
+        echo "$ANDROID_HOME/build-tools/34.0.0" >> $GITHUB_PATH
+
+    - name: Validate XML files
+      run: find . -name "*.xml" -exec xmllint --noout {} \;
+
+    - name: Install Buildozer
+      run: pip install buildozer
+
     - name: Build APK
+      run: buildozer -v android debug
+
+    - name: Upload artifact
+      uses: actions/upload-artifact - name: Build APK
       run: buildozer -v android debug
 
     - name: Upload artifact
